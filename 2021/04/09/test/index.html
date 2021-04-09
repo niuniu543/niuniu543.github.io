@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="概述 概念 ZooKeeper 是一个典型的分布式数据一致性解决方案，分布式应用程序可以基于 ZooKeeper 实现诸如数据发布&#x2F;订阅、负载均衡、命名服务、分布式协调&#x2F;通知、集群管理、Master 选举、分布式锁和分布式队列等功能 应用 集群 设计目标 ZAB&amp;PaxosPaxos 算法应该可以说是 ZooKeeper 的灵魂了。但是，ZooKeeper 并没有完全采用 Paxos算法">
+  <meta name="description" content="— title: postName #文章页面上的显示名称，一般是中文  date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改 categories: 默认分类 #分类 tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格 description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2021/04/09/zookeeper%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:url" content="http://example.com/2021/04/09/test/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="概述 概念 ZooKeeper 是一个典型的分布式数据一致性解决方案，分布式应用程序可以基于 ZooKeeper 实现诸如数据发布&#x2F;订阅、负载均衡、命名服务、分布式协调&#x2F;通知、集群管理、Master 选举、分布式锁和分布式队列等功能 应用 集群 设计目标 ZAB&amp;PaxosPaxos 算法应该可以说是 ZooKeeper 的灵魂了。但是，ZooKeeper 并没有完全采用 Paxos算法">
+<meta property="og:description" content="— title: postName #文章页面上的显示名称，一般是中文  date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改 categories: 默认分类 #分类 tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格 description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-04-09T11:41:16.845Z">
-<meta property="article:modified_time" content="2020-07-14T10:10:20.889Z">
+<meta property="article:published_time" content="2021-04-09T11:46:30.383Z">
+<meta property="article:modified_time" content="2021-04-09T11:48:25.873Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -154,22 +154,17 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-zookeeper知识点" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-test" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>概述</p>
-<p>概念</p>
-<p>ZooKeeper 是一个典型的分布式数据一致性解决方案，分布式应用程序可以基于 ZooKeeper 实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能</p>
-<p>应用</p>
-<p>集群</p>
-<p>设计目标</p>
-<h3 id="ZAB-amp-Paxos"><a href="#ZAB-amp-Paxos" class="headerlink" title="ZAB&amp;Paxos"></a>ZAB&amp;Paxos</h3><p>Paxos 算法应该可以说是 ZooKeeper 的灵魂了。但是，ZooKeeper 并没有完全采用 Paxos算法 ，而是使用 ZAB 协议作为其保证数据一致性的核心算法。另外，在ZooKeeper的官方文档中也指出，ZAB协议并不像 Paxos 算法那样，是一种通用的分布式一致性算法，它是一种特别为Zookeeper设计的崩溃可恢复的原子消息广播算法</p>
-<h4 id="zab协议介绍"><a href="#zab协议介绍" class="headerlink" title="zab协议介绍"></a>zab协议介绍</h4><p>ZAB（ZooKeeper Atomic Broadcast 原子广播） 协议是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。 在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性，基于该协议，ZooKeeper 实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。</p>
-<h4 id="ZAB-协议两种基本的模式"><a href="#ZAB-协议两种基本的模式" class="headerlink" title="ZAB 协议两种基本的模式"></a>ZAB 协议两种基本的模式</h4><p>ZAB协议包括两种基本的模式，分别是 崩溃恢复和消息广播。当整个服务框架在启动过程中，或是当 Leader 服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。当选举产生了新的 Leader 服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
-<p>当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。 当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器</p>
-<p>参考文档 <a target="_blank" rel="noopener" href="https://blog.csdn.net/java1109/article/details/103430986">https://blog.csdn.net/java1109/article/details/103430986</a></p>
+        <p>— title: postName #文章页面上的显示名称，一般是中文 </p>
+<p>date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改 categories: 默认分类 #分类</p>
+<p>tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格 description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description 里面 </p>
+<p>— 以下是正文</p>
+<p>Mark Word存储结构 </p>
+<p>对象头信息是与对象自身定义的数据无关的额外存储成本，但是考虑到虚拟机的空间效率，Mark Word被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据，它会根据对象的状态复用自己的存储空间，也就是说，Mark Word会随着程序的运行发生变化，可能变化为存储以下4种数据：</p>
 
       
 
@@ -249,7 +244,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/04/09/zookeeper%E7%9F%A5%E8%AF%86%E7%82%B9/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/04/09/test/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -263,17 +258,8 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/04/09/test/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/04/09/Synchronized%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/04/09/zookeeper%E7%9F%A5%E8%AF%86%E7%82%B9/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
