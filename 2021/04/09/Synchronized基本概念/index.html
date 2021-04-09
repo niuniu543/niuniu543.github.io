@@ -8,13 +8,37 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Synchronized基本概念Synchronized是Java中解决并发问题的一种最常用的方法，也是最简单的一种方法。synchronized关键字在需要原子性、可见性和有序性这三种特性的时候都可以作为其中一种解决方案，看起来是“万能”的。的确，大部分并发控制操作都能使用synchronized来完成。在多线程并发编程中Synchronized一直是元老级角色，很多人都会称呼它为重量级锁，但是">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/2021/04/09/Synchronized%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Synchronized基本概念Synchronized是Java中解决并发问题的一种最常用的方法，也是最简单的一种方法。synchronized关键字在需要原子性、可见性和有序性这三种特性的时候都可以作为其中一种解决方案，看起来是“万能”的。的确，大部分并发控制操作都能使用synchronized来完成。在多线程并发编程中Synchronized一直是元老级角色，很多人都会称呼它为重量级锁，但是">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-9a78f7ea7671a031.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-2ab6edc7f91a1535.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-063a9a5dc677cd12.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-c63ff6c2d337ad5f.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-5f6d3993ba018942.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-36035cd1936bd2c6.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-d1cc81ebcf0e912b.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-0f9f45797f3e732a.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-b4873ca2e39c1db7.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-7e332020d9f252db.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-5e935668eddb8fcd.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-b952465daf77e896.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-5f1830874fd93080.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-61dfb07d48d8588c.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2062729-c9740ab79f4d178c.png">
+<meta property="article:published_time" content="2021-04-09T11:41:16.830Z">
+<meta property="article:modified_time" content="2020-07-02T01:16:34.589Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2062729-9a78f7ea7671a031.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,67 +174,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-zookeeper知识点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>概述</p>
-<p>概念</p>
-<p>ZooKeeper 是一个典型的分布式数据一致性解决方案，分布式应用程序可以基于 ZooKeeper 实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能</p>
-<p>应用</p>
-<p>集群</p>
-<p>设计目标</p>
-<h3 id="ZAB-amp-Paxos"><a href="#ZAB-amp-Paxos" class="headerlink" title="ZAB&amp;Paxos"></a>ZAB&amp;Paxos</h3><p>Paxos 算法应该可以说是 ZooKeeper 的灵魂了。但是，ZooKeeper 并没有完全采用 Paxos算法 ，而是使用 ZAB 协议作为其保证数据一致性的核心算法。另外，在ZooKeeper的官方文档中也指出，ZAB协议并不像 Paxos 算法那样，是一种通用的分布式一致性算法，它是一种特别为Zookeeper设计的崩溃可恢复的原子消息广播算法</p>
-<h4 id="zab协议介绍"><a href="#zab协议介绍" class="headerlink" title="zab协议介绍"></a>zab协议介绍</h4><p>ZAB（ZooKeeper Atomic Broadcast 原子广播） 协议是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。 在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性，基于该协议，ZooKeeper 实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。</p>
-<h4 id="ZAB-协议两种基本的模式"><a href="#ZAB-协议两种基本的模式" class="headerlink" title="ZAB 协议两种基本的模式"></a>ZAB 协议两种基本的模式</h4><p>ZAB协议包括两种基本的模式，分别是 崩溃恢复和消息广播。当整个服务框架在启动过程中，或是当 Leader 服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。当选举产生了新的 Leader 服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
-<p>当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。 当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器</p>
-<p>参考文档 <a target="_blank" rel="noopener" href="https://blog.csdn.net/java1109/article/details/103430986">https://blog.csdn.net/java1109/article/details/103430986</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/09/zookeeper%E7%9F%A5%E8%AF%86%E7%82%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Synchronized基本概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Synchronized基本概念" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
@@ -505,6 +469,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -512,16 +497,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/09/Synchronized%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/04/09/Synchronized%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/04/09/zookeeper%E7%9F%A5%E8%AF%86%E7%82%B9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/09/cas%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -541,315 +594,14 @@
 
 
 
+  
+  
+  
 
   
-    <article id="post-cas实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="cas实现原理"><a href="#cas实现原理" class="headerlink" title="cas实现原理"></a>cas实现原理</h2><h3 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h3><p>如果在线程竞争压力大的情况下，synchronized 内部会升级为重量级锁，此时仅能有一个线程进入代码块执行，如果这把锁始终不能释放，其他线程会一直阻塞等待下去。此时，可以认为是悲观锁,锁会因线程一直阻塞导致系统上下文切换，系统的性能开销大</p>
-<h3 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h3><p>会以一种更加乐观的态度对待事情，认为自己可以操作成功。当多个线程操作同一个共享资源时，仅能有一个线程同一时间获得锁成功，在乐观锁中，其他线程发现自己无法成功获得锁，并不会像悲观锁那样阻塞线程，而是直接返回，可以去选择再次重试获得锁，也可以直接退出。</p>
-<p>CAS 被认为是一种乐观锁，他是乐观锁的核心算法实现，例如 AtomicInteger、LongAdder、Lock锁底层， java.util.concurrent.atomic 并发包下的所有原子类都是基于 CAS 来实现的。</p>
-<h3 id="CAS的操作过程"><a href="#CAS的操作过程" class="headerlink" title="CAS的操作过程"></a>CAS的操作过程</h3><p>CAS比较交换的过程可以通俗的理解为CAS(V,O,N)，包含三个值分别为：<strong>V 内存地址存放的实际值；O 预期的值（旧值）；N 更新的新值</strong>。当V和O相同时，也就是说旧值和内存中实际的值相同表明该值没有被其他线程更改过，即该旧值O就是目前来说最新的值了，自然而然可以将新值N赋值给V。反之，V和O不相同，表明该值已经被其他线程改过了则该旧值O不是最新版本的值了，所以不能将新值N赋给V，返回V即可。当多个线程使用CAS操作一个变量是，只有一个线程会成功，并成功更新，其余会失败。失败的线程会重新尝试，当然也可以选择挂起线。</p>
-<h3 id="CAS-底层实现机制"><a href="#CAS-底层实现机制" class="headerlink" title="CAS 底层实现机制"></a>CAS 底层实现机制</h3><p>以 AtomicInteger 原子整型类为例，一起来分析下 CAS 底层实现机制。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">atomicData.incrementAndGet()</span><br></pre></td></tr></table></figure>
-
-<p>源码如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 提供自增易用的方法，返回增加1后的值</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">incrementAndGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> unsafe.getAndAddInt(<span class="keyword">this</span>, valueOffset, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 额外提供的compareAndSet方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="keyword">this</span>, valueOffset, expect, update);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Unsafe 类的提供的方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getAndAddInt</span> <span class="params">(Object o,<span class="keyword">long</span> offset, <span class="keyword">int</span> delta)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> v;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">                v = getIntVolatile(o, offset);</span><br><span class="line">        &#125; <span class="keyword">while</span> (!weakCompareAndSetInt(o, offset, v, v + delta));</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们看到了 AtomicInteger 内部方法都是基于 Unsafe 类实现的，Unsafe 类是个跟底层硬件CPU指令通讯的复制工具类。</p>
-<p>由这段代码看到：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unsafe.compareAndSwapInt(<span class="keyword">this</span>, valueOffset, expect, update)</span><br></pre></td></tr></table></figure>
-
-<p>所谓的 CAS，其实是个简称，全称是 Compare And Swap，对比之后交换数据。上面的方法，有几个重要的参数：</p>
-<p>（1）this，Unsafe 对象本身，需要通过这个类来获取 value 的内存偏移地址。</p>
-<p>（2）valueOffset，value 变量的内存偏移地址。</p>
-<p>（3）expect，期望更新的值。</p>
-<p>（4）update，要更新的最新值。</p>
-<p>如果原子变量中的 value 值等于 expect，则使用 update 值更新该值并返回 true，否则返回 false。</p>
-<p>再看如何获得 valueOffset的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Unsafe实例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Unsafe unsafe = Unsafe.getUnsafe();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> valueOffset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">              <span class="comment">// 获得value在AtomicInteger中的偏移量</span></span><br><span class="line">                valueOffset = unsafe.objectFieldOffset</span><br><span class="line">                        (AtomicInteger.class.getDeclaredField(<span class="string">&quot;value&quot;</span>));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception ex) &#123; <span class="keyword">throw</span> <span class="keyword">new</span> Error(ex); &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 实际变量的值</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> value;</span><br></pre></td></tr></table></figure>
-
-<p>这里看到了 value 实际的变量，是由 volatile 关键字修饰的，为了保证在多线程下的内存可见性。</p>
-<p>为何能通过 Unsafe.getUnsafe() 方法能获得 Unsafe 类的实例？其实因为 AtomicInteger 类也在 rt.jar 包下面的，所以 AtomicInteger 类就是通过 Bootstrap 根类加载器进行加载的。</p>
-<p><strong>源码如下所示：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Unsafe <span class="title">getUnsafe</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Class var0 = Reflection.getCallerClass();</span><br><span class="line">        <span class="comment">// Bootstrap 类加载器是C++的，正常返回null，否则就抛异常。</span></span><br><span class="line">        <span class="keyword">if</span> (!VM.isSystemDomainLoader(var0.getClassLoader())) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(<span class="string">&quot;Unsafe&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> theUnsafe;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>类加载器委托关系：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-38d89ddfd18780ed800ad06fdb3b1ba4_720w.jpg" alt="img"></p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="CPU如何实现原子操作"><a href="#CPU如何实现原子操作" class="headerlink" title="CPU如何实现原子操作"></a>CPU如何实现原子操作</h3><p>CPU 处理器速度远远大于在主内存中的，为了解决速度差异，在他们之间架设了多级缓存，如 L1、L2、L3 级别的缓存，这些缓存离CPU越近就越快，将频繁操作的数据缓存到这里，加快访问速度 ，如下图所示： </p>
-<p><img src="https://pic4.zhimg.com/80/v2-3151120cc2372ad2de3b5b3f7e76f45f_720w.jpg" alt="img"></p>
-<p>现在都是多核 CPU 处理器，每个 CPU 处理器内维护了一块字节的内存，每个内核内部维护着一块字节的缓存，当多线程并发读写时，就会出现缓存数据不一致的情况。</p>
-<p>此时，处理器提供：</p>
-<ul>
-<li><strong>总线锁定</strong></li>
-</ul>
-<p>当一个处理器要操作共享变量时，在 BUS 总线上发出一个 Lock 信号，其他处理就无法操作这个共享变量了。</p>
-<p>缺点很明显，总线锁定在阻塞其它处理器获取该共享变量的操作请求时，也可能会导致大量阻塞，从而增加系统的性能开销。</p>
-<ul>
-<li><strong>缓存锁定</strong></li>
-</ul>
-<p>后来的处理器都提供了缓存锁定机制，也就说当某个处理器对缓存中的共享变量进行了操作，其他处理器会有个嗅探机制，将其他处理器的该共享变量的缓存失效，待其他线程读取时会重新从主内存中读取最新的数据，基于 MESI 缓存一致性协议来实现的。</p>
-<p>现代的处理器基本都支持和使用的缓存锁定机制。</p>
-<p>注意：</p>
-<p>有如下两种情况处理器不会使用缓存锁定：</p>
-<p>（1）当操作的数据跨多个缓存行，或没被缓存在处理器内部，则处理器会使用总线锁定。</p>
-<p>（2）有些处理器不支持缓存锁定，比如：Intel 486 和 Pentium 处理器也会调用总线锁定。</p>
-<h3 id="解密CAS底层指令"><a href="#解密CAS底层指令" class="headerlink" title="解密CAS底层指令"></a>解密CAS底层指令</h3><p>其实，掌握以上内容，对于 CAS 机制的理解相对来说算是比较清楚了。</p>
-<p>当然，如果感兴趣，也可以继续深入学习用到了哪些硬件 CPU 指令。</p>
-<p>底层硬件通过将 CAS 里的多个操作在硬件层面语义实现上，通过一条处理器指令保证了原子性操作。这些指令如下所示：</p>
-<p>（1）测试并设置（Tetst-and-Set）</p>
-<p>（2）获取并增加（Fetch-and-Increment）</p>
-<p>（3）交换（Swap）</p>
-<p>（4）比较并交换（Compare-and-Swap）</p>
-<p>（5）加载链接/条件存储（Load-Linked/Store-Conditional）</p>
-<p>前面三条大部分处理器已经实现，后面的两条是现代处理器当中新增加的。而且根据不同的体系结构，指令存在着明显差异。</p>
-<p>在IA64，x86 指令集中有 cmpxchg 指令完成 CAS 功能，在 sparc-TSO 也有 casa 指令实现，而在 ARM 和 PowerPC 架构下，则需要使用一对 ldrex/strex 指令来完成 LL/SC 的功能。在精简指令集的体系架构中，则通常是靠一对儿指令，如：load and reserve 和 store conditional 实现的，在大多数处理器上 CAS 都是个非常轻量级的操作，这也是其优势所在。</p>
-<p>sun.misc.Unsafe 中 CAS 的核心方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">boolean</span> <span class="title">compareAndSwapObject</span><span class="params">(Object var1, <span class="keyword">long</span> var2, Object var4, Object var5)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">boolean</span> <span class="title">compareAndSwapInt</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">int</span> var4, <span class="keyword">int</span> var5)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">boolean</span> <span class="title">compareAndSwapLong</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">long</span> var4, <span class="keyword">long</span> var6)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>这三个方法可以对应去查看 openjdk 的 hotspot 源码：</p>
-<p>源码位置：<code>hotspot/src/share/vm/prims/unsafe.cpp</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#define FN_PTR(f) CAST_FROM_FN_PTR(void*, &amp;f)</span><br><span class="line"></span><br><span class="line">&#123;CC<span class="string">&quot;compareAndSwapObject&quot;</span>, CC<span class="string">&quot;(&quot;</span>OBJ<span class="string">&quot;J&quot;</span>OBJ<span class="string">&quot;&quot;</span>OBJ<span class="string">&quot;)Z&quot;</span>,  FN_PTR(Unsafe_CompareAndSwapObject)&#125;,</span><br><span class="line"></span><br><span class="line">&#123;CC<span class="string">&quot;compareAndSwapInt&quot;</span>,  CC<span class="string">&quot;(&quot;</span>OBJ<span class="string">&quot;J&quot;</span><span class="string">&quot;I&quot;</span><span class="string">&quot;I&quot;</span><span class="string">&quot;)Z&quot;</span>,      FN_PTR(Unsafe_CompareAndSwapInt)&#125;,</span><br><span class="line"></span><br><span class="line">&#123;CC<span class="string">&quot;compareAndSwapLong&quot;</span>, CC<span class="string">&quot;(&quot;</span>OBJ<span class="string">&quot;J&quot;</span><span class="string">&quot;J&quot;</span><span class="string">&quot;J&quot;</span><span class="string">&quot;)Z&quot;</span>,      FN_PTR(Unsafe_CompareAndSwapLong)&#125;,</span><br></pre></td></tr></table></figure>
-
-<p>上述三个方法，最终在 hotspot 源码实现中都会调用统一的 cmpxchg 函数，可以在 hotspot 源码中找到核心代码。</p>
-<p>源码地址：<code>hotspot/src/share/vm/runtime/Atomic.cpp</code></p>
-<p><strong>cmpxchg 函数源码：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">jbyte Atomic::cmpxchg(jbyte exchange_value, <span class="keyword">volatile</span> jbyte*dest, jbyte compare_value) &#123;</span><br><span class="line">         <span class="keyword">assert</span> (sizeof(jbyte) == <span class="number">1</span>,<span class="string">&quot;assumption.&quot;</span>);</span><br><span class="line">         uintptr_t dest_addr = (uintptr_t) dest;</span><br><span class="line">         uintptr_t offset = dest_addr % sizeof(jint);</span><br><span class="line">         <span class="keyword">volatile</span> jint*dest_int = ( <span class="keyword">volatile</span> jint*)(dest_addr - offset);</span><br><span class="line">         <span class="comment">// 对象当前值</span></span><br><span class="line">         jint cur = *dest_int;</span><br><span class="line">         <span class="comment">// 当前值cur的地址</span></span><br><span class="line">         jbyte * cur_as_bytes = (jbyte *) ( &amp; cur);</span><br><span class="line">         <span class="comment">// new_val地址</span></span><br><span class="line">         jint new_val = cur;</span><br><span class="line">         jbyte * new_val_as_bytes = (jbyte *) ( &amp; new_val);</span><br><span class="line">          <span class="comment">// new_val存exchange_value，后面修改则直接从new_val中取值</span></span><br><span class="line">         new_val_as_bytes[offset] = exchange_value;</span><br><span class="line">         <span class="comment">// 比较当前值与期望值，如果相同则更新，不同则直接返回</span></span><br><span class="line">         <span class="keyword">while</span> (cur_as_bytes[offset] == compare_value) &#123;</span><br><span class="line">          <span class="comment">// 调用汇编指令cmpxchg执行CAS操作，期望值为cur，更新值为new_val</span></span><br><span class="line">             jint res = cmpxchg(new_val, dest_int, cur);</span><br><span class="line">             <span class="keyword">if</span> (res == cur) <span class="keyword">break</span>;</span><br><span class="line">             cur = res;</span><br><span class="line">             new_val = cur;</span><br><span class="line">             new_val_as_bytes[offset] = exchange_value;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="comment">// 返回当前值</span></span><br><span class="line">         <span class="keyword">return</span> cur_as_bytes[offset];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>源码中具体变量添加了注释，因为都是 C++ 代码，所以作为了解即可 ~</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jint res = cmpxchg(new_val, dest_int, cur);</span><br></pre></td></tr></table></figure>
-
-<p>这里就是调用了汇编指令 cmpxchg 了，其中也是包含了三个参数，跟CAS上的参数能对应上。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>任何技术都要找到适合的场景，都不是万能的，CAS 机制也一样，也有副作用。</p>
-<p><strong>问题1：</strong></p>
-<p>作为乐观锁的一种实现，当多线程竞争资源激烈的情况下，而且锁定的资源处理耗时，那么其他线程就要考虑自旋的次数限制，避免过度的消耗 CPU。</p>
-<p>另外，可以考虑上文示例代码中提到的 LongAdder 来解决，LongAdder 以空间换时间的方式，来解决 CAS 大量失败后长时间占用 CPU 资源，加大了系统性能开销的问题。</p>
-<p><strong>问题2：</strong></p>
-<p>A–&gt;B—&gt;A 问题，假设有一个变量 A ，修改为B，然后又修改为了 A，实际已经修改过了，但 CAS 可能无法感知，造成了不合理的值修改操作。</p>
-<p>整数类型还好，如果是对象引用类型，包含了多个变量，那怎么办？加个版本号或时间戳呗，没问题！</p>
-<p>JDK 中 java.util.concurrent.atomic 并发包下，提供了 AtomicStampedReference，通过为引用建立个 Stamp 类似版本号的方式，确保 CAS 操作的正确性。</p>
-<p>希望此文大家收藏消化，CAS 在JDK并发包底层实现中是个非常重要的算法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/09/cas%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
 
   
-    <article id="post-对象在内存中的布局" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>对象在内存中的布局</p>
-<p>在JVM中<strong>，对象在内存中的布局分为三块区域：对象头、实例数据和对齐填充</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2062729-9a78f7ea7671a031.png" alt="img"></p>
-<ol>
-<li><p>实例数据：存放类的属性数据信息，包括父类的属性信息；</p>
-</li>
-<li><p>对齐填充：由于虚拟机要求 对象起始地址必须是8字节的整数倍。填充数据不是必须存在的，仅仅是为了字节对齐；</p>
-</li>
-<li><p><strong>对象头：Java对象头一般占有2个机器码（在32位虚拟机中，1个机器码等于4字节，也就是32bit，在64位虚拟机中，1个机器码是8个字节，也就是64bit），但是 如果对象是数组类型，则需要3个机器码，因为JVM虚拟机可以通过Java对象的元数据信息确定Java对象的大小，但是无法从数组的元数据来确认数组的大小，所以用一块来记录数组长度。</strong></p>
-<p> Java对象头具体结构描述如下：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2062729-2ab6edc7f91a1535.png" alt="img"></p>
-<p>Java对象头结构组成</p>
-<p>Mark Word用于存储对象自身的运行时数据，如：哈希码（HashCode）、GC分代年龄、<strong>锁状态标志</strong>、线程持有的锁、偏向线程 ID、偏向时间戳等。比如锁膨胀就是借助Mark Word的偏向的线程ID 参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/aspirant/p/11705068.html">JAVA锁的膨胀过程和优化(阿里)</a> 阿里也经常问的问题</p>
-<p>下图是Java对象头 无锁状态下Mark Word部分的存储结构（32位虚拟机）：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2062729-063a9a5dc677cd12.png" alt="img"></p>
-<p>Mark Word存储结构 </p>
-<p>对象头信息是与对象自身定义的数据无关的额外存储成本，但是考虑到虚拟机的空间效率，Mark Word被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据，它会根据对象的状态复用自己的存储空间，也就是说，Mark Word会随着程序的运行发生变化，可能变化为存储以下4种数据：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2062729-c63ff6c2d337ad5f.png" alt="img"></p>
-<p>Mark Word可能存储4种数据</p>
-<p>在64位虚拟机下，Mark Word是64bit大小的，其存储结构如下：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2062729-5f6d3993ba018942.png" alt="img"></p>
-<p>64位Mark Word存储结构</p>
-<p>对象头的最后两位存储了锁的标志位，01是初始状态，未加锁，其对象头里存储的是对象本身的哈希码，随着锁级别的不同，对象头里会存储不同的内容。偏向锁存储的是当前占用此对象的线程ID；而轻量级则存储指向线程栈中锁记录的指针。从这里我们可以看到，“锁”这个东西，可能是个锁记录+对象头里的引用指针（判断线程是否拥有锁时将线程的锁记录地址和对象头里的指针地址比较)，也可能是对象头里的线程ID（判断线程是否拥有锁时将线程的ID和对象头里存储的线程ID比较）。 </p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2062729-36035cd1936bd2c6.png" alt="img"></p>
-<p>HotSpot虚拟机对象头Mark Word</p>
-</li>
-</ol>
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/09/%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jvm加载class文件机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="jvm加载class文件的原理机制"><a href="#jvm加载class文件的原理机制" class="headerlink" title="jvm加载class文件的原理机制"></a>jvm加载class文件的原理机制</h4><h5 id="java类加载器的层次结构"><a href="#java类加载器的层次结构" class="headerlink" title="java类加载器的层次结构"></a>java类加载器的层次结构</h5><p>java中的类加载器实质上也是也是类，功能是把类加载入JVM中，值得注意的是JVM的类加载器有三个，原因有：一方面是为了分工明确，各自负责各自的区块，另一方面为了实现委托模型</p>
-<p><em><strong>BootStrap Loader（引导类加载器）</strong></em> —– 负责加载系统类</p>
-<p><em><strong>ExtClassLoader（扩展类加载器）</strong></em> —– 负责加载扩展类</p>
-<p><em><strong>AppClassLoade（应用类加载器）r</strong></em> —– 负责加载应用类</p>
-<h5 id="java类加载器基于三个机制"><a href="#java类加载器基于三个机制" class="headerlink" title="java类加载器基于三个机制"></a>java类加载器基于三个机制</h5><p><em><strong>全盘负责：</strong></em>是指当一个类加载器负责加载某个<code>Class</code>时，该<code>Class</code>所依赖和引用其他<code>Class</code>也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入</p>
-<p><em><strong>双亲委派：</strong></em>所谓的<code>双亲委派</code>，则是先让父类加载器试图加载该<code>Class</code>，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。<br>通俗的讲，就是某个特定的类加载器在接到加载类的请求时，首先将加载任务委托给父加载器，依次递归，如果父加载器可以完成类加载任务，就成功返回；只有父加载器无法完成此加载任务时，才给子类去加载。</p>
-<p><em><strong>缓冲机制</strong></em>：会保证所有加载过的<code>Class</code>都会被缓存，当程序中需要使用某个<code>Class</code>时，类加载器先从缓存区中搜寻该<code>Class</code>，只有当缓存区中不存在该<code>Class</code>对象时，系统才会读取该类对应的二进制数据，并将其转换成<code>Class</code>对象，存入缓冲区中。这就是为什么修改了<code>Class</code>后，必须重新启动<code>JVM</code>，程序所做的修改才会生效的原因</p>
-<p>或者</p>
-<p><em><strong>委托：</strong></em>指加载一个类的请求交给父类加载器，若父类加载器不可以找到或者加载到，再加载这个类</p>
-<p><em><strong>单一</strong></em>：指子类加载器不会再次加载父类加载器已经加载过的类</p>
-<p><em><strong>可见性：</strong></em>子类加载器可以看见父类加载器加载的所有类，而父类加载器不可以看到子类加载器加载的类</p>
-<h5 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h5><p>其工作原理的是，如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行，如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器，如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载，这就是双亲委派模式，即每个儿子都很懒，每次有活就丢给父亲去干，直到父亲说这件事我也干不了时，儿子自己才想办法去完成。</p>
-<h5 id="双亲委派优点"><a href="#双亲委派优点" class="headerlink" title="双亲委派优点"></a>双亲委派优点</h5><p>采用双亲委派模式的是好处是<code>Java</code>类随着它的类加载器一起具备了一种带有优先级的层次关系，通过这种层级关可以避免类的重复加载，当父亲已经加载了该类时，就没有必要让子<code>ClassLoader</code>再加载一次</p>
-<p>其次是考虑到安全因素，<code>java</code>核心<code>api</code>中定义类型不会被随意替换，假设通过网络传递一个名为<code>java.lang.Integer</code>的类，通过双亲委托模式传递到启动类加载器，而启动类加载器在核心<code>Java API</code>发现这个名字的类，发现该类已被加载，并不会重新加载网络传递的过来的<code>java.lang.Integer</code>，而直接返回已加载过的<code>Integer.class</code>，这样便可以防止核心<code>API</code>库被随意篡改。</p>
-<h5 id="类加载方式"><a href="#类加载方式" class="headerlink" title="类加载方式"></a>类加载方式</h5><p><em><strong>隐式</strong></em>：序在运行过程中当碰到通过new等方式生成类或者子类对象、使用类或者子类的静态域时，隐式调用类加载器加载对应的的类到JVM中</p>
-<p><em><strong>显式</strong></em>：通过调用Class.forName()或者ClassLoader.loadClass(className)等方法</p>
-<h5 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h5><h6 id="加载："><a href="#加载：" class="headerlink" title="加载："></a><em><strong>加载：</strong></em></h6><p>加载阶段主要做的事情：</p>
-<p>通过类全限定名获取定义此类的二进制字节流</p>
-<p>将字节流代表的静态存储结构转换为方法区的运行时数据结构</p>
-<p>在内存中生成此类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</p>
-<h6 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h6><p>分为验证、准备、解析三个阶段</p>
-<h6 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h6><p>这阶段开始执行Java程序代码，这一步主要是执行类构造器<code>&lt;clinit&gt;</code>方法对类变量进行初始化的过程，注意，这个方法不是构造方法，此方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块中的语句合并产生的方法，主要是给类变量做初始化工作的方法</p>
-<p>关于<code>&lt;clinit&gt;</code>方法的注意事项</p>
-<p>1顺序问题：静态语句块后面的静态变量，静态语句块中可以赋值，但不可以访问；</p>
-<p><strong>继承执行顺序</strong>：无需显示调用，虚拟机会保证子类的<code>&lt;clinit&gt;</code>方法执行前，父类的<code>&lt;clinit&gt;</code>方法已经执行完毕；</p>
-<p><strong>接口的<code>&lt;clinit&gt;</code>方法：</strong>虽然接口不能有静态语句块，但是可以给静态变量初始化值，所以也可以生成<code>&lt;clinit&gt;</code>方法；</p>
-<p><strong>接口继承：</strong>除非使用到父接口的变量，否则执行子接口的<code>&lt;clinit&gt;</code>方法不需要先执行父接口的<code>&lt;clinit&gt;</code>方法；</p>
-<p>在并发场景，虚拟机会保证一个类的<code>&lt;clinit&gt;</code>方法只有一个线程执行，其他线程会阻塞，所以要确保静态代码块中不要写可能回到成进程阻塞的代码。</p>
-<h5 id="触发加载class文件的条件"><a href="#触发加载class文件的条件" class="headerlink" title="触发加载class文件的条件"></a>触发加载class文件的条件</h5><p>当以下任何一种情况发生的时候，会触发加载class文件：</p>
-<p>1、遇到new、getstatic、putstatic或者invokestatic字节码指令的时候，如果类还没有初始化。对应场景为 new一个对象，读取或者设置一个类的静态字段、调用类的静态方法的时候</p>
-<p>2、使用<code>java.lang.reflect</code>包的方法对类进行反射的时候，如果类还没有初始化</p>
-<p>3、初始化类的时候，如果父类还没有初始化，则触发父类初始化</p>
-<p>4、虚拟机器启动时，main方法所在的类</p>
-<h5 id="获取二进制流的方式"><a href="#获取二进制流的方式" class="headerlink" title="获取二进制流的方式"></a>获取二进制流的方式</h5><p>JVM规范并没有指定class文件二进制流需要从哪里以什么方式获取，目前主要获取方式有</p>
-<p>zip包，延伸为JAR、EAR、WAR包</p>
-<p>网络，如Applet</p>
-<p>动态代理、数据库获取、JSP生成</p>
-<p><em><strong>类初始化的条件</strong></em></p>
-<ol>
-<li>使用<code>new</code>该类实例化对象的时候；</li>
-<li>读取或设置类静态字段的时候（但被<code>final</code>修饰的字段，在编译器时就被放入常量池的静态字段除外<code>static final</code>）；</li>
-<li>调用类静态方法的时候；</li>
-<li>使用反射<code>Class.forName(“全限定类名”)</code>对类进行反射调用的时候，该类需要初始化；</li>
-<li>初始化一个类的时候，有父类，先初始化父类（注：1. 接口除外，父接口在调用的时候才会被初始化；2.子类引用父类静态字段，只会引发父类初始化）；</li>
-<li>被标明为启动类的类（即包含<code>main()</code>方法的类）要初始化；</li>
-<li>当使用<code>JDK1.7</code>的动态语言支持时，如果一个<code>java.invoke.MethodHandle</code>实例最后的解析结果<code>REF_getStatic</code>、<code>REF_putStatic</code>、 <code>REF_invokeStatic</code>的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
-</ol>
-<p><em><strong>对象初始化的顺序</strong></em></p>
-<ul>
-<li><code>本类</code>：静态变量，静态初始化块，变量，初始化块，构造函数</li>
-<li><code>继承类</code>：父类静态变量，父类静态初始化块，子类静态变量，子类静态初始化块，父类变量，父类初始化块，父类构造函数，子类变量，子类初始化块，子类构造函数</li>
-</ul>
-<h5 id="预先加载和依需求加载"><a href="#预先加载和依需求加载" class="headerlink" title="预先加载和依需求加载"></a>预先加载和依需求加载</h5><p>Java运行环境为了优化系统，提高程序的执行速度，在JRE运行的开始会将Java运行所需要的基本类采用预先加载（pre-loading）的方法全部加载到内存当中，因为这些单元在Java程序运行的过程当中要经常使用的，主要包括JRE的rt.jar文件里面所有的.class文件。<br>当java.exe虚拟机开始运行以后，它会找到安装在机器上的JRE环境，然后把控制权交给JRE，JRE的类加载器会自动将lib目录下的rt.jar基础类别文件库加载进内存，这些文件是Java程序执行所必需的，所以系统在开始就将这些文件加载，避免以后的多次IO操作，从而提高程序执行效率。然而我们在程序中需要使用自定义的类的时候就要使用依需求加载（load-on-demand）的方式，就是在Java程序需要用到的时候再加载，以减少内存的消耗。</p>
-<h5 id="类加载的动态体现"><a href="#类加载的动态体现" class="headerlink" title="类加载的动态体现"></a>类加载的动态体现</h5><p>一个应用程序总是由n多个类组成，Java程序启动时，并不是一次把所有的类全部加载再运行，他总是把保证程序运行的基础类一次性加载到JVM中，其他类等到JVM用到的时候再加载，这样是为了节省内存的开销，因为Java最早就是为嵌入式系统而设计的，内存宝贵，而用到时再加载这也是Java动态性的一种体现。</p>
-<h5 id="什么地方适用类加载器"><a href="#什么地方适用类加载器" class="headerlink" title="什么地方适用类加载器"></a>什么地方适用类加载器</h5><p>最经典的例子就是AppletClassLoader，他被用来加载Applet使用的类，而Applet大部分是在网上使用，而非本地的操作系统使用。使用不同的类加载器，你可以从不同的源地址加载同一个类，它们被视为不同的类。J2EE使用多个类加载器加载不同地方的类，例如War文件由Web-app类加载器加载，而EJB-JAR中的类由另外的类加载器加载。有些服务器也支持热部署，这是由类加载器实现。你也可以使用类加载器来加载数据库或者其他持久层的数据</p>
-<h5 id="class文件被加载之后在内存中是如何存储的"><a href="#class文件被加载之后在内存中是如何存储的" class="headerlink" title="class文件被加载之后在内存中是如何存储的"></a>class文件被加载之后在内存中是如何存储的</h5><p>方法区、永久代、元数据、热点代码缓冲区</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/09/jvm%E5%8A%A0%E8%BD%BDclass%E6%96%87%E4%BB%B6%E6%9C%BA%E5%88%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -872,8 +624,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
