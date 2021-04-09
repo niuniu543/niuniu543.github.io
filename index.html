@@ -152,6 +152,109 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jvm加载class文件机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="jvm加载class文件的原理机制"><a href="#jvm加载class文件的原理机制" class="headerlink" title="jvm加载class文件的原理机制"></a>jvm加载class文件的原理机制</h4><h5 id="java类加载器的层次结构"><a href="#java类加载器的层次结构" class="headerlink" title="java类加载器的层次结构"></a>java类加载器的层次结构</h5><p>java中的类加载器实质上也是也是类，功能是把类加载入JVM中，值得注意的是JVM的类加载器有三个，原因有：一方面是为了分工明确，各自负责各自的区块，另一方面为了实现委托模型</p>
+<p><em><strong>BootStrap Loader（引导类加载器）</strong></em> —– 负责加载系统类</p>
+<p><em><strong>ExtClassLoader（扩展类加载器）</strong></em> —– 负责加载扩展类</p>
+<p><em><strong>AppClassLoade（应用类加载器）r</strong></em> —– 负责加载应用类</p>
+<h5 id="java类加载器基于三个机制"><a href="#java类加载器基于三个机制" class="headerlink" title="java类加载器基于三个机制"></a>java类加载器基于三个机制</h5><p><em><strong>全盘负责：</strong></em>是指当一个类加载器负责加载某个<code>Class</code>时，该<code>Class</code>所依赖和引用其他<code>Class</code>也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入</p>
+<p><em><strong>双亲委派：</strong></em>所谓的<code>双亲委派</code>，则是先让父类加载器试图加载该<code>Class</code>，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。<br>通俗的讲，就是某个特定的类加载器在接到加载类的请求时，首先将加载任务委托给父加载器，依次递归，如果父加载器可以完成类加载任务，就成功返回；只有父加载器无法完成此加载任务时，才给子类去加载。</p>
+<p><em><strong>缓冲机制</strong></em>：会保证所有加载过的<code>Class</code>都会被缓存，当程序中需要使用某个<code>Class</code>时，类加载器先从缓存区中搜寻该<code>Class</code>，只有当缓存区中不存在该<code>Class</code>对象时，系统才会读取该类对应的二进制数据，并将其转换成<code>Class</code>对象，存入缓冲区中。这就是为什么修改了<code>Class</code>后，必须重新启动<code>JVM</code>，程序所做的修改才会生效的原因</p>
+<p>或者</p>
+<p><em><strong>委托：</strong></em>指加载一个类的请求交给父类加载器，若父类加载器不可以找到或者加载到，再加载这个类</p>
+<p><em><strong>单一</strong></em>：指子类加载器不会再次加载父类加载器已经加载过的类</p>
+<p><em><strong>可见性：</strong></em>子类加载器可以看见父类加载器加载的所有类，而父类加载器不可以看到子类加载器加载的类</p>
+<h5 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h5><p>其工作原理的是，如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行，如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器，如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载，这就是双亲委派模式，即每个儿子都很懒，每次有活就丢给父亲去干，直到父亲说这件事我也干不了时，儿子自己才想办法去完成。</p>
+<h5 id="双亲委派优点"><a href="#双亲委派优点" class="headerlink" title="双亲委派优点"></a>双亲委派优点</h5><p>采用双亲委派模式的是好处是<code>Java</code>类随着它的类加载器一起具备了一种带有优先级的层次关系，通过这种层级关可以避免类的重复加载，当父亲已经加载了该类时，就没有必要让子<code>ClassLoader</code>再加载一次</p>
+<p>其次是考虑到安全因素，<code>java</code>核心<code>api</code>中定义类型不会被随意替换，假设通过网络传递一个名为<code>java.lang.Integer</code>的类，通过双亲委托模式传递到启动类加载器，而启动类加载器在核心<code>Java API</code>发现这个名字的类，发现该类已被加载，并不会重新加载网络传递的过来的<code>java.lang.Integer</code>，而直接返回已加载过的<code>Integer.class</code>，这样便可以防止核心<code>API</code>库被随意篡改。</p>
+<h5 id="类加载方式"><a href="#类加载方式" class="headerlink" title="类加载方式"></a>类加载方式</h5><p><em><strong>隐式</strong></em>：序在运行过程中当碰到通过new等方式生成类或者子类对象、使用类或者子类的静态域时，隐式调用类加载器加载对应的的类到JVM中</p>
+<p><em><strong>显式</strong></em>：通过调用Class.forName()或者ClassLoader.loadClass(className)等方法</p>
+<h5 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h5><h6 id="加载："><a href="#加载：" class="headerlink" title="加载："></a><em><strong>加载：</strong></em></h6><p>加载阶段主要做的事情：</p>
+<p>通过类全限定名获取定义此类的二进制字节流</p>
+<p>将字节流代表的静态存储结构转换为方法区的运行时数据结构</p>
+<p>在内存中生成此类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</p>
+<h6 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h6><p>分为验证、准备、解析三个阶段</p>
+<h6 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h6><p>这阶段开始执行Java程序代码，这一步主要是执行类构造器<code>&lt;clinit&gt;</code>方法对类变量进行初始化的过程，注意，这个方法不是构造方法，此方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块中的语句合并产生的方法，主要是给类变量做初始化工作的方法</p>
+<p>关于<code>&lt;clinit&gt;</code>方法的注意事项</p>
+<p>1顺序问题：静态语句块后面的静态变量，静态语句块中可以赋值，但不可以访问；</p>
+<p><strong>继承执行顺序</strong>：无需显示调用，虚拟机会保证子类的<code>&lt;clinit&gt;</code>方法执行前，父类的<code>&lt;clinit&gt;</code>方法已经执行完毕；</p>
+<p><strong>接口的<code>&lt;clinit&gt;</code>方法：</strong>虽然接口不能有静态语句块，但是可以给静态变量初始化值，所以也可以生成<code>&lt;clinit&gt;</code>方法；</p>
+<p><strong>接口继承：</strong>除非使用到父接口的变量，否则执行子接口的<code>&lt;clinit&gt;</code>方法不需要先执行父接口的<code>&lt;clinit&gt;</code>方法；</p>
+<p>在并发场景，虚拟机会保证一个类的<code>&lt;clinit&gt;</code>方法只有一个线程执行，其他线程会阻塞，所以要确保静态代码块中不要写可能回到成进程阻塞的代码。</p>
+<h5 id="触发加载class文件的条件"><a href="#触发加载class文件的条件" class="headerlink" title="触发加载class文件的条件"></a>触发加载class文件的条件</h5><p>当以下任何一种情况发生的时候，会触发加载class文件：</p>
+<p>1、遇到new、getstatic、putstatic或者invokestatic字节码指令的时候，如果类还没有初始化。对应场景为 new一个对象，读取或者设置一个类的静态字段、调用类的静态方法的时候</p>
+<p>2、使用<code>java.lang.reflect</code>包的方法对类进行反射的时候，如果类还没有初始化</p>
+<p>3、初始化类的时候，如果父类还没有初始化，则触发父类初始化</p>
+<p>4、虚拟机器启动时，main方法所在的类</p>
+<h5 id="获取二进制流的方式"><a href="#获取二进制流的方式" class="headerlink" title="获取二进制流的方式"></a>获取二进制流的方式</h5><p>JVM规范并没有指定class文件二进制流需要从哪里以什么方式获取，目前主要获取方式有</p>
+<p>zip包，延伸为JAR、EAR、WAR包</p>
+<p>网络，如Applet</p>
+<p>动态代理、数据库获取、JSP生成</p>
+<p><em><strong>类初始化的条件</strong></em></p>
+<ol>
+<li>使用<code>new</code>该类实例化对象的时候；</li>
+<li>读取或设置类静态字段的时候（但被<code>final</code>修饰的字段，在编译器时就被放入常量池的静态字段除外<code>static final</code>）；</li>
+<li>调用类静态方法的时候；</li>
+<li>使用反射<code>Class.forName(“全限定类名”)</code>对类进行反射调用的时候，该类需要初始化；</li>
+<li>初始化一个类的时候，有父类，先初始化父类（注：1. 接口除外，父接口在调用的时候才会被初始化；2.子类引用父类静态字段，只会引发父类初始化）；</li>
+<li>被标明为启动类的类（即包含<code>main()</code>方法的类）要初始化；</li>
+<li>当使用<code>JDK1.7</code>的动态语言支持时，如果一个<code>java.invoke.MethodHandle</code>实例最后的解析结果<code>REF_getStatic</code>、<code>REF_putStatic</code>、 <code>REF_invokeStatic</code>的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
+</ol>
+<p><em><strong>对象初始化的顺序</strong></em></p>
+<ul>
+<li><code>本类</code>：静态变量，静态初始化块，变量，初始化块，构造函数</li>
+<li><code>继承类</code>：父类静态变量，父类静态初始化块，子类静态变量，子类静态初始化块，父类变量，父类初始化块，父类构造函数，子类变量，子类初始化块，子类构造函数</li>
+</ul>
+<h5 id="预先加载和依需求加载"><a href="#预先加载和依需求加载" class="headerlink" title="预先加载和依需求加载"></a>预先加载和依需求加载</h5><p>Java运行环境为了优化系统，提高程序的执行速度，在JRE运行的开始会将Java运行所需要的基本类采用预先加载（pre-loading）的方法全部加载到内存当中，因为这些单元在Java程序运行的过程当中要经常使用的，主要包括JRE的rt.jar文件里面所有的.class文件。<br>当java.exe虚拟机开始运行以后，它会找到安装在机器上的JRE环境，然后把控制权交给JRE，JRE的类加载器会自动将lib目录下的rt.jar基础类别文件库加载进内存，这些文件是Java程序执行所必需的，所以系统在开始就将这些文件加载，避免以后的多次IO操作，从而提高程序执行效率。然而我们在程序中需要使用自定义的类的时候就要使用依需求加载（load-on-demand）的方式，就是在Java程序需要用到的时候再加载，以减少内存的消耗。</p>
+<h5 id="类加载的动态体现"><a href="#类加载的动态体现" class="headerlink" title="类加载的动态体现"></a>类加载的动态体现</h5><p>一个应用程序总是由n多个类组成，Java程序启动时，并不是一次把所有的类全部加载再运行，他总是把保证程序运行的基础类一次性加载到JVM中，其他类等到JVM用到的时候再加载，这样是为了节省内存的开销，因为Java最早就是为嵌入式系统而设计的，内存宝贵，而用到时再加载这也是Java动态性的一种体现。</p>
+<h5 id="什么地方适用类加载器"><a href="#什么地方适用类加载器" class="headerlink" title="什么地方适用类加载器"></a>什么地方适用类加载器</h5><p>最经典的例子就是AppletClassLoader，他被用来加载Applet使用的类，而Applet大部分是在网上使用，而非本地的操作系统使用。使用不同的类加载器，你可以从不同的源地址加载同一个类，它们被视为不同的类。J2EE使用多个类加载器加载不同地方的类，例如War文件由Web-app类加载器加载，而EJB-JAR中的类由另外的类加载器加载。有些服务器也支持热部署，这是由类加载器实现。你也可以使用类加载器来加载数据库或者其他持久层的数据</p>
+<h5 id="class文件被加载之后在内存中是如何存储的"><a href="#class文件被加载之后在内存中是如何存储的" class="headerlink" title="class文件被加载之后在内存中是如何存储的"></a>class文件被加载之后在内存中是如何存储的</h5><p>方法区、永久代、元数据、热点代码缓冲区</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/04/09/jvm%E5%8A%A0%E8%BD%BDclass%E6%96%87%E4%BB%B6%E6%9C%BA%E5%88%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
